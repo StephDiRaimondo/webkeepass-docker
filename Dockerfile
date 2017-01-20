@@ -1,7 +1,7 @@
 FROM debian:latest
 MAINTAINER Stéphane DI RAIMONDO
 
-RUN apt-get update && apt-get install -y git wget build-essential openssl expat libssl-dev libxml-parser-perl && \
+RUN apt-get update && apt-get install -y git wget build-essential openssl expat libssl-dev libxml-parser-perl libcam-pdf-perl && \
     apt-get clean
 RUN wget --no-check-certificate -O - http://install.perlbrew.pl | bash
 RUN ~/perl5/perlbrew/bin/perlbrew init
