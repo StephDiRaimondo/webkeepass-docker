@@ -3,15 +3,18 @@ MAINTAINER Stéphane DI RAIMONDO
 
 RUN apt-get update && apt-get install -y git wget build-essential openssl expat libssl-dev libxml-parser-perl cpanminus && \
     apt-get clean
+    
 RUN wget --no-check-certificate -O - http://install.perlbrew.pl | bash
 RUN ~/perl5/perlbrew/bin/perlbrew init
 RUN ~/perl5/perlbrew/bin/perlbrew --force install -n `~/perl5/perlbrew/bin/perlbrew available | head -1` --as webkeepass -j 3
 RUN ~/perl5/perlbrew/bin/perlbrew use webkeepass
-RUN wget --no-check-certificate -O - https://raw.github.com/miyagawa/cpanminus/master/cpanm > /opt/cpanm
+
+ADD start.sh /opt/
 RUN chmod +x /opt/cpanm
 RUN ln -s /opt/cpanm /usr/bin/
+
 RUN mkdir -p /srv/webkeepass
-RUN cd /srv/webkeepass
+WORKDIR /srv/webkeepass
 RUN env GIT_SSL_NO_VERIFY=true git clone https://github.com/sukria/WebKeePass.git /srv/webkeepass
 RUN cpanm Dist::Zilla
 RUN cpanm XML::Parser
